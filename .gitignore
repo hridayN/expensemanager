@@ -48,3 +48,8 @@ Thumbs.db
 \.vs
 FileContentIndex
 v17
+\wwwroot
+\PublishProfiles
+/ExpenseManagerAPI/Properties/PublishProfiles
+*csproj.user
+ExpenseManagerAPI/ExpenseManagerAPI.csproj.user

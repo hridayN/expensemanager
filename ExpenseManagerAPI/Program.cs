@@ -3,6 +3,8 @@ using ExpenseManagerAPI.Interface;
 using ExpenseManagerAPI.Services;
 using ExpenseManagerAPI.Settings;
 using ExpenseManagerAPI.Utilities;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,38 @@ builder.Services.AddScoped<IDBService, DBService>();
 
 var app = builder.Build();
 
+app.Map(new PathString(""), client =>
+{
+    // path for index.html file
+    var clientPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/browser");
+    StaticFileOptions clientAppDist = new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(clientPath)
+    };
+    client.UseSpaStaticFiles(clientAppDist);
+    client.UseSpa(spa =>
+    {
+        spa.Options.DefaultPageStaticFileOptions = clientAppDist;
+    });
+});
+
+
+app.UseDefaultFiles();
+
+app.UseStaticFiles();
+
+
+
+app.UseCors(builder =>
+
+builder.AllowAnyOrigin()
+
+.AllowAnyHeader()
+
+.AllowAnyMethod()
+
+);
+/*
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI(options =>
@@ -32,9 +66,10 @@ app.UseSwaggerUI(options =>
     // To serve the Swagger UI at the app's root (https://localhost:<port>/), set the RoutePrefix property to an empty string
     options.RoutePrefix = string.Empty;
 });
+*/
     ;
 app.UseAuthorization();
 
-app.MapControllers();
+// app.MapControllers();
 
 app.Run();
