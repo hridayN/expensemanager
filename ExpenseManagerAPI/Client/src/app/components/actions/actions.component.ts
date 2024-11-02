@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatCardCustom } from '../../models/mat-card';
 
 @Component({
   selector: 'app-actions',
@@ -8,16 +9,16 @@ import { Router } from '@angular/router';
   styleUrl: './actions.component.css'
 })
 export class ActionsComponent {
-  actions = Array<string>();
+  cards: Array<MatCardCustom>;
+
   constructor(private router: Router) {
-    this.actions = new Array<string>();
-  }
-  ngOnInit() {
-    this.actions = ['Manage-Expenses', 'Manage-Payment-Methods'];
+    this.cards = new Array<MatCardCustom>();
   }
 
-  routeByAction(action: string) {
-    // alert('routing to /' + action.toLowerCase());
-    this.router.navigateByUrl(action.toLowerCase());
+  ngOnInit() {
+    this.cards = [
+      { title: 'Manage-Expenses', showButton: true, buttonText: 'Manage-Expenses' },
+      { title: 'Manage-Payment-Methods', showButton: true, buttonText: 'Manage-Expenses' }
+    ];
   }
 }
